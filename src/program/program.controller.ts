@@ -1,6 +1,6 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post } from '@nestjs/common';
 import { ProgramService } from './program.service';
-import { CreateProgramDto } from './dto';
+import { CreateProgramDto, EditProgramDto } from './dto';
 
 @Controller('program')
 export class ProgramController {
@@ -16,5 +16,17 @@ export class ProgramController {
     @Get()
     getProgram(){
         return this.programService.getProgram()
+    }
+
+    @HttpCode(HttpStatus.OK)
+    @Patch(':id')
+    updateProgram(@Param('id') programId: string, @Body() editDto: EditProgramDto){
+        return this.programService.editProgram(programId, editDto)
+    }
+
+    @HttpCode(HttpStatus.OK)
+    @Delete(':id')
+    deleteProgram(@Param('id') programId: string){
+        return this.programService.deleteProgram(programId)
     }
 }

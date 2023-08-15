@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Program, ProgramDocument } from './program.model';
 import { Model } from 'mongoose';
-import { CreateProgramDto } from './dto';
+import { CreateProgramDto, EditProgramDto } from './dto';
 import { errorRes, successRes } from '../helpers/response'
 
 @Injectable()
@@ -24,5 +24,22 @@ export class ProgramService {
     async getProgram(){
         const program = await this.programModel.find().exec()
         return successRes("Records fetched successfully", program)
+    }
+
+    async editProgram(programId: string, editDto: EditProgramDto){
+        const program = await this.programModel.findById(programId)
+        if(!program){
+            throw new NotFoundException("Program not found")
+        }
+        const editedProgram = await program.updateOne({$set: editDto}, {new: true}).exec()
+        return successRes("Program updated succesully", editedProgram)
+    }
+
+    async deleteProgram(programId: string){
+        const program = await this.programModel.findByIdAndDelete(programId).exec()
+        if(!program){
+            throw new NotFoundException("Program not found")
+        }
+        return successRes("Program deleted successfully")
     }
 }
