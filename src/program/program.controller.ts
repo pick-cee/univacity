@@ -1,6 +1,7 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query } from '@nestjs/common';
 import { ProgramService } from './program.service';
 import { CreateProgramDto, EditProgramDto } from './dto';
+import { SearchProgramDto } from './dto/searchProgram.dto';
 
 @Controller('program')
 export class ProgramController {
@@ -19,6 +20,12 @@ export class ProgramController {
     }
 
     @HttpCode(HttpStatus.OK)
+    @Get(':id')
+    getProgramById(@Param('id') programId: string){
+        return this.programService.getProgramById(programId)
+    }
+
+    @HttpCode(HttpStatus.OK)
     @Patch(':id')
     updateProgram(@Param('id') programId: string, @Body() editDto: EditProgramDto){
         return this.programService.editProgram(programId, editDto)
@@ -29,4 +36,10 @@ export class ProgramController {
     deleteProgram(@Param('id') programId: string){
         return this.programService.deleteProgram(programId)
     }
+
+    @HttpCode(HttpStatus.OK)
+    @Post('search')
+    searchProgram(@Query() searchCriteria: SearchProgramDto){
+        return this.programService.searchProgram(searchCriteria)
+    }    
 }

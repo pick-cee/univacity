@@ -4,6 +4,7 @@ import { Program, ProgramDocument } from './program.model';
 import { Model } from 'mongoose';
 import { CreateProgramDto, EditProgramDto } from './dto';
 import { errorRes, successRes } from '../helpers/response'
+import { SearchProgramDto } from './dto/searchProgram.dto';
 
 @Injectable()
 export class ProgramService {
@@ -26,6 +27,14 @@ export class ProgramService {
         return successRes("Records fetched successfully", program)
     }
 
+    async getProgramById(programId: string){
+        const program = await this.programModel.findById(programId)
+        if(!program){
+            throw new NotFoundException("Program not found")
+        }
+        return successRes("Program retrieved", program)
+    }
+
     async editProgram(programId: string, editDto: EditProgramDto){
         const program = await this.programModel.findById(programId)
         if(!program){
@@ -41,5 +50,34 @@ export class ProgramService {
             throw new NotFoundException("Program not found")
         }
         return successRes("Program deleted successfully")
+    }
+
+    async searchProgram(searchParams: SearchProgramDto){
+        const query: any = {};
+
+        if (searchParams.level) {
+            query.level = new RegExp(searchParams.level, 'i'); // case-insensitive search
+        }
+
+        if (searchParams.institute) {
+            query.institute = new RegExp(searchParams.institute, 'i');
+        }
+
+        if (searchParams.country) {
+            query.country = new RegExp(searchParams.country, 'i');
+        }
+
+        if (searchParams.searchText) {
+            query.$or = [
+                { name: new RegExp(searchParams.searchText, 'i') },
+                { description: new RegExp(searchParams.searchText, 'i') },
+            ];
+        }
+
+        const program = await this.programModel.find(query).exec();
+        if(program.length === 0){
+            throw new NotFoundException("Program not found")
+        }
+        return successRes('Program retreived', program)
     }
 }
