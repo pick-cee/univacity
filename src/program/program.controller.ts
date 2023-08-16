@@ -1,7 +1,6 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query } from '@nestjs/common';
 import { ProgramService } from './program.service';
-import { CreateProgramDto, EditProgramDto } from './dto';
-import { SearchProgramDto } from './dto/searchProgram.dto';
+import { CreateProgramDto, EditProgramDto, SearchProgramDto } from './dto';
 
 @Controller('program')
 export class ProgramController {

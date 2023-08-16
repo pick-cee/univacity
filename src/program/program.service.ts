@@ -2,9 +2,9 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Program, ProgramDocument } from './program.model';
 import { Model } from 'mongoose';
-import { CreateProgramDto, EditProgramDto } from './dto';
+import { CreateProgramDto, EditProgramDto, SearchProgramDto } from './dto';
 import { errorRes, successRes } from '../helpers/response'
-import { SearchProgramDto } from './dto/searchProgram.dto';
+
 
 @Injectable()
 export class ProgramService {

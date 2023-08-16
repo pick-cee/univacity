@@ -45,18 +45,12 @@ $ yarn run start:dev
 $ yarn run start:prod
 ```
 
-## Test
+## Postman collection
 
-```bash
-# unit tests
-$ yarn run test
 
-# e2e tests
-$ yarn run test:e2e
+Testing the endpoints
+FInd the link to the postman collection here. please [click here](https://documenter.getpostman.com/view/16987750/2s9Y5R15uS)
 
-# test coverage
-$ yarn run test:cov
-```
 
 ## Support
 
