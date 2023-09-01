@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { IsEnum, IsOptional, IsString } from 'class-validator';
 
 export class SearchProgramDto {
